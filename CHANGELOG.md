@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/4thel00z/html2md/compare/html2md-v0.3.0...html2md-v0.3.1) (2025-12-23)
+
+
+### Bug Fixes
+
+* consolidate workflows into ci.yml ([6c6b69f](https://github.com/4thel00z/html2md/commit/6c6b69fa8929329c992045b4142069da67894ec7))
+
 ## [0.3.0](https://github.com/4thel00z/html2md/compare/html2md-v0.2.1...html2md-v0.3.0) (2025-12-23)
 
 
