@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.2](https://github.com/4thel00z/html2md/compare/html2md-v0.3.1...html2md-v0.3.2) (2025-12-23)
+
+
+### Bug Fixes
+
+* **docs:** update README (inlined template) and add demo video ([d19d0e9](https://github.com/4thel00z/html2md/commit/d19d0e90d142937720b04d096015b12ba9b4804c))
+
 ## [0.3.1](https://github.com/4thel00z/html2md/compare/html2md-v0.3.0...html2md-v0.3.1) (2025-12-23)
 
 
