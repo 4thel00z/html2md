@@ -1,6 +1,24 @@
-# html2md
+<h1 align="center">html2md 📝</h1>
 
-Markdown → self-contained HTML with **Pico-like classless styling** powered by **DaisyUI theme tokens**.
+<p align="center">
+  Markdown → self-contained HTML with <strong>Pico-like classless styling</strong> powered by <strong>DaisyUI theme tokens</strong>.
+</p>
+
+<p align="center">
+  <a href="https://github.com/4thel00z/html2md/actions/workflows/ci.yml">
+    <img alt="CI" src="https://github.com/4thel00z/html2md/actions/workflows/ci.yml/badge.svg" />
+  </a>
+  <a href="https://www.npmjs.com/package/%404thel00z%2Fhtml2md">
+    <img alt="npm" src="https://img.shields.io/npm/v/%404thel00z%2Fhtml2md" />
+  </a>
+  <a href="LICENSE">
+    <img alt="License" src="https://img.shields.io/npm/l/%404thel00z%2Fhtml2md" />
+  </a>
+</p>
+
+## Requirements
+
+- Bun (recommended for dev + demo)
 
 ## Install
 
@@ -12,12 +30,12 @@ bun install
 
 ```bash
 # In your React app
-bun add html2md
+bun add @4thel00z/html2md
 ```
 
 ```tsx
 import React from "react";
-import { Converter } from "html2md";
+import { Converter } from "@4thel00z/html2md";
 
 export function App() {
   return <Converter />;
@@ -43,7 +61,7 @@ bun run generate:template
 ## Library usage
 
 ```ts
-import { render } from "html2md";
+import { render } from "@4thel00z/html2md";
 
 const fullHtml = await render("# Hello", { theme: "night" });
 ```
@@ -53,4 +71,29 @@ const fullHtml = await render("# Hello", { theme: "night" });
 ```bash
 bun run start
 ```
+
+## Contributing / Dev
+
+```bash
+bun install
+bun run generate:template
+bun run start
+```
+
+### Quality checks
+
+```bash
+bun run check
+bun run format
+```
+
+### Enable pre-commit hooks (recommended)
+
+```bash
+bun run hooks:install
+```
+
+## Releases
+
+Releases are automated from **Conventional Commits** on `main` via GitHub Actions (`semantic-release`).
 
