@@ -9,3 +9,4 @@ src/infrastructure/template.generated.ts
 .DS_Store
 *.log
 
+out
