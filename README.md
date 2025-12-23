@@ -42,20 +42,21 @@ export function App() {
 }
 ```
 
-### Required: serve the generated template once
+## Demo video
 
-`Converter` fetches `/template.generated.html` once and then only replaces placeholders for:
-- `__THEME__` (selected output theme)
-- `__CONTENT__` (rendered HTML)
+![Demo](demo.gif)
 
-In this repo, `src/server.ts` serves that route. In your app, you can either:
-- place `template.generated.html` in your public/static folder at `/template.generated.html`, or
-- add an equivalent route.
+## Template
 
-To generate it:
+- By default, `Converter` (and `render()`) uses an **embedded HTML template with inlined CSS** — **no routes/static files** are required.
+- If you want to use a custom template, pass `templateUrl` (it will be fetched once and cached):
 
-```bash
-bun run generate:template
+```tsx
+<Converter templateUrl="/my-template.html" />
+```
+
+```ts
+await render("# Hello", { theme: "night", templateUrl: "/my-template.html" });
 ```
 
 ## Library usage
