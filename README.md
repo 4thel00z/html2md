@@ -122,8 +122,7 @@ bun run start
 
 ```bash
 bun install
-bun run generate:template
-bun build ./src/index.html --outdir ./out --minify --target browser --public-path /
+bun run build:static
 ```
 
 ## Contributing / Dev

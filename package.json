@@ -42,6 +42,7 @@
     "generate:template": "bun ./generate-template.ts",
     "start": "bun run generate:template && bun --hot src/server.ts",
     "build": "bun run generate:template && bun run build:js && bun run build:types",
+    "build:static": "bun run generate:template && bun ./build-static.ts",
     "build:js": "bun build ./src/index.ts --outdir ./dist --format esm --target node",
     "build:types": "tsc -p tsconfig.build.json",
     "format": "biome format --write .",
