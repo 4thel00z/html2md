@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import type React from "react";
 import { useEffect, useMemo, useState } from "react";
 import { render } from "../render.ts";
@@ -43,7 +44,24 @@ export interface ConverterProps {
   themes?: readonly string[];
   heightClassName?: string;
   onHtmlChange?: (html: string) => void;
+  className?: string;
+  classNames?: ConverterClassNames;
+  unstyled?: boolean;
+  markdownEditorClassNames?: React.ComponentProps<typeof MarkdownEditor>["classNames"];
+  htmlPreviewClassNames?: React.ComponentProps<typeof HtmlPreview>["classNames"];
 }
+
+export type ConverterSlot =
+  | "root"
+  | "grid"
+  | "editorColumn"
+  | "previewColumn"
+  | "helperText"
+  | "themeControls"
+  | "themeLabel"
+  | "themeSelect";
+
+export type ConverterClassNames = Partial<Record<ConverterSlot, string>>;
 
 const DEFAULT_MARKDOWN = `# Hello World
 
@@ -73,6 +91,11 @@ export const Converter: React.FC<ConverterProps> = ({
   themes = DEFAULT_THEMES as unknown as readonly string[],
   heightClassName = "h-[650px]",
   onHtmlChange,
+  className,
+  classNames,
+  unstyled = false,
+  markdownEditorClassNames,
+  htmlPreviewClassNames,
 }) => {
   const [markdown, setMarkdown] = useState<string>(initialMarkdown);
   const [html, setHtml] = useState<string>("");
@@ -132,18 +155,45 @@ export const Converter: React.FC<ConverterProps> = ({
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-      <div className={`flex flex-col gap-2 ${heightClassName}`}>
+    <div
+      className={clsx(
+        !unstyled && "grid grid-cols-1 lg:grid-cols-2 gap-8 items-start",
+        className,
+        classNames?.root,
+        classNames?.grid
+      )}
+    >
+      <div
+        className={clsx(
+          !unstyled && "flex flex-col gap-2",
+          heightClassName,
+          classNames?.editorColumn
+        )}
+      >
         <MarkdownEditor
           initialMarkdown={markdown}
           onChange={setMarkdown}
+          unstyled={unstyled}
+          classNames={markdownEditorClassNames}
           headerActions={
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold opacity-70 hidden sm:inline">Output theme</span>
+            <div
+              className={clsx(!unstyled && "flex items-center gap-2", classNames?.themeControls)}
+            >
+              <span
+                className={clsx(
+                  !unstyled && "text-xs font-bold opacity-70 hidden sm:inline",
+                  classNames?.themeLabel
+                )}
+              >
+                Output theme
+              </span>
               <select
                 value={outputTheme}
                 onChange={(e) => handleThemeChange(e.target.value)}
-                className="select select-sm select-bordered font-sans h-8 min-h-0"
+                className={clsx(
+                  !unstyled && "select select-sm select-bordered font-sans h-8 min-h-0",
+                  classNames?.themeSelect
+                )}
                 aria-label="Select output theme"
               >
                 {themes.map((t) => (
@@ -155,20 +205,28 @@ export const Converter: React.FC<ConverterProps> = ({
             </div>
           }
         />
-        <div className="text-xs opacity-70 px-1">
+        <div className={clsx(!unstyled && "text-xs opacity-70 px-1", classNames?.helperText)}>
           {templateError
             ? `Template error: ${templateError}`
             : "Preview updates automatically while you type."}
         </div>
       </div>
 
-      <div className={`flex flex-col gap-2 ${heightClassName} lg:sticky lg:top-24`}>
+      <div
+        className={clsx(
+          !unstyled && "flex flex-col gap-2 lg:sticky lg:top-24",
+          heightClassName,
+          classNames?.previewColumn
+        )}
+      >
         <HtmlPreview
           html={html}
           isLoading={isLoading}
           refreshToken={previewRefreshToken}
           onDownload={handleDownload}
           canDownload={!!html}
+          unstyled={unstyled}
+          classNames={htmlPreviewClassNames}
         />
       </div>
     </div>

@@ -2,14 +2,27 @@ import { Extension } from "@tiptap/core";
 import Placeholder from "@tiptap/extension-placeholder";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import clsx from "clsx";
 import { FileText } from "lucide-react";
 import type React from "react";
 import { useEffect, useRef } from "react";
 
-interface MarkdownEditorProps {
+export type MarkdownEditorSlot =
+  | "root"
+  | "header"
+  | "headerTitle"
+  | "headerActions"
+  | "body"
+  | "editor";
+
+export type MarkdownEditorClassNames = Partial<Record<MarkdownEditorSlot, string>>;
+
+export interface MarkdownEditorProps {
   initialMarkdown: string;
   onChange: (markdown: string) => void;
   headerActions?: React.ReactNode;
+  classNames?: MarkdownEditorClassNames;
+  unstyled?: boolean;
 }
 
 function escapeHtml(s: string): string {
@@ -35,8 +48,15 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   initialMarkdown,
   onChange,
   headerActions,
+  classNames,
+  unstyled = false,
 }) => {
   const hasInitialized = useRef(false);
+  const editorClassName = clsx(
+    !unstyled &&
+      "font-mono text-[13px] leading-relaxed text-base-content max-w-none focus:outline-none h-full p-6 whitespace-pre-wrap",
+    classNames?.editor
+  );
   const editor = useEditor({
     extensions: [
       // StarterKit includes Document/Paragraph/Text/History. We disable everything else
@@ -72,8 +92,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     },
     editorProps: {
       attributes: {
-        class:
-          "font-mono text-[13px] leading-relaxed text-base-content max-w-none focus:outline-none h-full p-6 whitespace-pre-wrap",
+        class: editorClassName,
       },
     },
   });
@@ -88,15 +107,39 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   if (!editor) return null;
 
   return (
-    <div className="flex flex-col border border-base-300 rounded-xl overflow-hidden bg-base-100 shadow-sm h-full">
-      <div className="flex items-center justify-between p-4 border-b border-base-300 bg-base-100/70">
-        <div className="flex items-center gap-2 font-semibold">
+    <div
+      className={clsx(
+        !unstyled &&
+          "flex flex-col border border-base-300 rounded-xl overflow-hidden bg-base-100 shadow-sm h-full",
+        classNames?.root
+      )}
+    >
+      <div
+        className={clsx(
+          !unstyled &&
+            "flex items-center justify-between p-4 border-b border-base-300 bg-base-100/70",
+          classNames?.header
+        )}
+      >
+        <div
+          className={clsx(
+            !unstyled && "flex items-center gap-2 font-semibold",
+            classNames?.headerTitle
+          )}
+        >
           <FileText size={18} />
           <span>Editor</span>
         </div>
-        <div className="flex items-center gap-3">{headerActions}</div>
+        <div className={clsx(!unstyled && "flex items-center gap-3", classNames?.headerActions)}>
+          {headerActions}
+        </div>
       </div>
-      <div className="flex-grow overflow-y-auto bg-base-100 min-h-[500px]">
+      <div
+        className={clsx(
+          !unstyled && "flex-grow overflow-y-auto bg-base-100 min-h-[500px]",
+          classNames?.body
+        )}
+      >
         <EditorContent editor={editor} className="h-full" />
       </div>
     </div>

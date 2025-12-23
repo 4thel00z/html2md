@@ -1,13 +1,33 @@
+import clsx from "clsx";
 import { Download, Eye, Maximize2, Minimize2 } from "lucide-react";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
 
-interface HtmlPreviewProps {
+export type HtmlPreviewSlot =
+  | "root"
+  | "rootFullscreen"
+  | "rootWindowed"
+  | "header"
+  | "headerTitle"
+  | "headerActions"
+  | "downloadButton"
+  | "fullscreenButton"
+  | "loadingContainer"
+  | "spinner"
+  | "body"
+  | "emptyState"
+  | "iframe";
+
+export type HtmlPreviewClassNames = Partial<Record<HtmlPreviewSlot, string>>;
+
+export interface HtmlPreviewProps {
   html: string;
   isLoading: boolean;
   refreshToken?: number;
   onDownload?: () => void;
   canDownload?: boolean;
+  classNames?: HtmlPreviewClassNames;
+  unstyled?: boolean;
 }
 
 export const HtmlPreview: React.FC<HtmlPreviewProps> = ({
@@ -16,6 +36,8 @@ export const HtmlPreview: React.FC<HtmlPreviewProps> = ({
   refreshToken,
   onDownload,
   canDownload,
+  classNames,
+  unstyled = false,
 }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -67,37 +89,69 @@ export const HtmlPreview: React.FC<HtmlPreviewProps> = ({
   return (
     <div
       ref={containerRef}
-      className={[
-        "flex flex-col border border-base-300 overflow-hidden bg-base-100 shadow-sm h-full",
-        isFullscreen ? "rounded-none" : "rounded-xl",
-      ].join(" ")}
+      className={clsx(
+        !unstyled &&
+          "flex flex-col border border-base-300 overflow-hidden bg-base-100 shadow-sm h-full",
+        classNames?.root,
+        isFullscreen
+          ? clsx(!unstyled && "rounded-none", classNames?.rootFullscreen)
+          : clsx(!unstyled && "rounded-xl", classNames?.rootWindowed)
+      )}
     >
-      <div className="flex items-center justify-between p-4 border-b border-base-300 bg-base-100/70">
-        <div className="flex items-center gap-2 font-semibold">
+      <div
+        className={clsx(
+          !unstyled &&
+            "flex items-center justify-between p-4 border-b border-base-300 bg-base-100/70",
+          classNames?.header
+        )}
+      >
+        <div
+          className={clsx(
+            !unstyled && "flex items-center gap-2 font-semibold",
+            classNames?.headerTitle
+          )}
+        >
           <Eye size={18} />
           <span>Live Preview</span>
         </div>
-        <div className="flex items-center gap-3">
+        <div className={clsx(!unstyled && "flex items-center gap-3", classNames?.headerActions)}>
           {onDownload && (
             <button
               type="button"
               onClick={onDownload}
               disabled={!canDownload}
-              className="btn btn-ghost btn-sm btn-square"
+              className={clsx(
+                !unstyled && "btn btn-ghost btn-sm btn-square",
+                classNames?.downloadButton
+              )}
               title="Download HTML"
             >
               <Download size={18} />
             </button>
           )}
           {isLoading && (
-            <div className="flex items-center gap-2 opacity-60 text-sm">
-              <div className="w-4 h-4 border-2 border-base-300 border-t-base-content rounded-full animate-spin" />
+            <div
+              className={clsx(
+                !unstyled && "flex items-center gap-2 opacity-60 text-sm",
+                classNames?.loadingContainer
+              )}
+            >
+              <div
+                className={clsx(
+                  !unstyled &&
+                    "w-4 h-4 border-2 border-base-300 border-t-base-content rounded-full animate-spin",
+                  classNames?.spinner
+                )}
+              />
             </div>
           )}
           <button
             type="button"
             onClick={toggleFullscreen}
-            className="btn btn-ghost btn-sm btn-square"
+            className={clsx(
+              !unstyled && "btn btn-ghost btn-sm btn-square",
+              classNames?.fullscreenButton
+            )}
             aria-pressed={isFullscreen}
             aria-label={isFullscreen ? "Exit fullscreen preview" : "Enter fullscreen preview"}
             title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
@@ -106,15 +160,26 @@ export const HtmlPreview: React.FC<HtmlPreviewProps> = ({
           </button>
         </div>
       </div>
-      <div className="flex-grow bg-base-200 relative min-h-[500px] overflow-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div
+        className={clsx(
+          !unstyled &&
+            "flex-grow bg-base-200 relative min-h-[500px] overflow-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+          classNames?.body
+        )}
+      >
         {!html && !isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center opacity-60 italic">
+          <div
+            className={clsx(
+              !unstyled && "absolute inset-0 flex items-center justify-center opacity-60 italic",
+              classNames?.emptyState
+            )}
+          >
             Convert your markdown to see the preview
           </div>
         )}
         <iframe
           ref={iframeRef}
-          className="w-full border-none bg-base-100 block"
+          className={clsx(!unstyled && "w-full border-none bg-base-100 block", classNames?.iframe)}
           scrolling="no"
           style={{ height: iframeHeight ? `${iframeHeight}px` : "100%" }}
           title="Conversion Preview"
