@@ -45,6 +45,12 @@ export const ConverterApp: React.FC = () => {
 
 This is a **responsive**, realtime Markdown to self-contained HTML converter.
 
+## How to use
+- Type Markdown on the left.
+- Pick an **Output Theme** (it only affects the preview + downloaded HTML).
+- The preview updates as you type (slight debounce).
+- Click **Download** to save a standalone HTML file.
+
 ## Features
 - Markdown → HTML
 - Tailwind CSS v4 + Typography
@@ -172,6 +178,14 @@ console.log(greeting);
             Create beautiful, self-contained HTML documents from Markdown. 
             Tailwind v4 + typography for great readability.
           </p>
+          <div className="mt-6 rounded-xl border border-base-300 bg-base-100 p-4 text-sm leading-relaxed">
+            <div className="font-bold mb-2">How to use</div>
+            <ul className="list-disc pl-5 space-y-1 opacity-90">
+              <li>Write Markdown in the editor.</li>
+              <li>Select an <span className="font-semibold">Output Theme</span> (applies to preview + downloaded HTML only).</li>
+              <li>Click <span className="font-semibold">Download</span> to save a standalone HTML file.</li>
+            </ul>
+          </div>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
