@@ -1,6 +1,6 @@
 {
   "name": "@4thel00z/html2md",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Markdown → self-contained HTML (Tailwind v4 + Typography + DaisyUI themes).",
   "license": "MIT",
   "repository": {
@@ -11,10 +11,21 @@
     "url": "https://github.com/4thel00z/html2md/issues"
   },
   "homepage": "https://github.com/4thel00z/html2md#readme",
-  "keywords": ["markdown", "html", "converter", "tailwindcss", "daisyui", "bun"],
+  "keywords": [
+    "markdown",
+    "html",
+    "converter",
+    "tailwindcss",
+    "daisyui",
+    "bun"
+  ],
   "type": "module",
   "sideEffects": false,
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
