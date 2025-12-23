@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/4thel00z/html2md/compare/html2md-v0.2.0...html2md-v0.2.1) (2025-12-23)
+
+
+### Bug Fixes
+
+* publish to npm on release ([d00c846](https://github.com/4thel00z/html2md/commit/d00c846cca3461b75e816f38426e0e4fdb47434b))
+
 ## [0.2.0](https://github.com/4thel00z/html2md/compare/html2md-v0.1.0...html2md-v0.2.0) (2025-12-23)
 
 
