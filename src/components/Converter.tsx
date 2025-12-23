@@ -68,7 +68,7 @@ console.log(greeting);
 
 export const Converter: React.FC<ConverterProps> = ({
   initialMarkdown = DEFAULT_MARKDOWN,
-  templateUrl = "/template.generated.html",
+  templateUrl,
   themeStorageKey = "html2md-theme",
   themes = DEFAULT_THEMES as unknown as readonly string[],
   heightClassName = "h-[650px]",

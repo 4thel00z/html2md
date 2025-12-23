@@ -3,6 +3,7 @@ dist/
 
 # generated output template (rebuild via `bun run generate:template`)
 src/infrastructure/template.generated.html
+src/infrastructure/template.generated.ts
 
 # OS/editor noise
 .DS_Store

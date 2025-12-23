@@ -5,6 +5,7 @@
       "dist/**",
       "node_modules/**",
       "package.json",
+      "src/infrastructure/template.generated.ts",
       "src/infrastructure/template.generated.html",
       "src/output.css",
       "src/styles.css"
