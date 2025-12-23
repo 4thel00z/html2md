@@ -8,22 +8,49 @@ Markdown → self-contained HTML with **Pico-like classless styling** powered by
 bun install
 ```
 
-## How to use (demo app)
+## How to use (React component)
 
 ```bash
-bun run start
+# In your React app
+bun add html2md
 ```
 
-- **Editor**: write Markdown on the left
-- **Output Theme**: changes the preview + downloaded HTML colors (does **not** change the app UI)
-- **Download**: saves a standalone HTML file (CSS inlined)
+```tsx
+import React from "react";
+import { Converter } from "html2md";
+
+export function App() {
+  return <Converter />;
+}
+```
+
+### Required: serve the generated template once
+
+`ConverterApp` fetches `/template.generated.html` once and then only replaces placeholders for:
+- `__THEME__` (selected output theme)
+- `__CONTENT__` (rendered HTML)
+
+In this repo, `src/server.ts` serves that route. In your app, you can either:
+- place `template.generated.html` in your public/static folder at `/template.generated.html`, or
+- add an equivalent route.
+
+To generate it:
+
+```bash
+bun run generate:template
+```
 
 ## Library usage
 
 ```ts
-import { convertToHtml } from "html2md";
+import { MarkdownAdapter, HtmlTemplateAdapter } from "html2md";
 
-const html = await convertToHtml("# Hello");
+// markdown -> HTML fragment
+const contentHtml = await MarkdownAdapter.convert("# Hello");
+
+// then inject into the template you serve (string replacement)
+const templateHtml = await fetch("/template.generated.html").then((r) => r.text());
+const fullHtml = HtmlTemplateAdapter.render(templateHtml, contentHtml, "night");
 ```
 
 ## Demo app (local)
