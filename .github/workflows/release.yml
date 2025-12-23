@@ -1,42 +1,53 @@
-name: Release
+name: Release Please
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 concurrency:
-  group: release-${{ github.ref }}
+  group: release-please-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
   contents: write
-  issues: write
   pull-requests: write
 
 jobs:
-  release:
+  release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: googleapis/release-please-action@v4
+        id: release
         with:
-          fetch-depth: 0
+          config-file: .release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      - uses: actions/checkout@v4
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+
       - uses: oven-sh/setup-bun@v2
+        if: ${{ steps.release.outputs.release_created == 'true' }}
         with:
           bun-version: latest
+
       - name: Install
+        if: ${{ steps.release.outputs.release_created == 'true' }}
         run: bun install --frozen-lockfile
+
       - name: Check + build
+        if: ${{ steps.release.outputs.release_created == 'true' }}
         run: bun run ci
+
       - name: Configure npm auth
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > "$HOME/.npmrc"
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+        run: echo \"//registry.npmjs.org/:_authToken=${NPM_TOKEN}\" > \"$HOME/.npmrc\"
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: semantic-release
+
+      - name: Publish to npm
+        if: ${{ steps.release.outputs.release_created == 'true' }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: bun run release
+        run: bun publish --access public
 
