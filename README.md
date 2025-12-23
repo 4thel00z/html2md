@@ -95,5 +95,10 @@ bun run hooks:install
 
 ## Releases
 
-Releases are automated from **Conventional Commits** on `main` via GitHub Actions (`semantic-release`).
+Releases are automated from **Conventional Commits** on `master` via **Release Please**.
+
+- Push Conventional Commits to `master` → Release Please opens/updates a Release PR
+- Merge the Release PR → GitHub Release/tag is created and the package is published to npm
+
+Required GitHub secret: `NPM_TOKEN`
 
