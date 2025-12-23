@@ -9,8 +9,6 @@ import type { HtmlTemplatePort } from "../domain/ports.ts";
  */
 export const HtmlTemplateAdapter: HtmlTemplatePort = {
   render(templateHtml: string, contentHtml: string, theme: string): string {
-    return templateHtml
-      .replaceAll("__THEME__", theme)
-      .replace("__CONTENT__", contentHtml);
-  }
+    return templateHtml.replaceAll("__THEME__", theme).replace("__CONTENT__", contentHtml);
+  },
 } as const;

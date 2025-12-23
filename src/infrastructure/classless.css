@@ -21,17 +21,35 @@
 }
 
 /* Base reset (lightweight) */
-*, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; }
-img, svg, video, canvas { max-width: 100%; height: auto; }
-table { border-collapse: collapse; border-spacing: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+}
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
 
 /* Layout */
 body {
   background: var(--doc-surface);
   color: var(--doc-text);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
   line-height: 1.55;
   padding: 32px 18px;
 }
@@ -48,17 +66,36 @@ main {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   line-height: 1.15;
   margin: 0.7em 0 0.45em;
   letter-spacing: -0.02em;
 }
-h1 { font-size: 2.1rem; }
-h2 { font-size: 1.6rem; }
-h3 { font-size: 1.25rem; }
-p { margin: 0.65em 0; }
-small { color: var(--doc-muted); }
-hr { border: 0; border-top: 1px solid var(--doc-border); margin: 1.4em 0; }
+h1 {
+  font-size: 2.1rem;
+}
+h2 {
+  font-size: 1.6rem;
+}
+h3 {
+  font-size: 1.25rem;
+}
+p {
+  margin: 0.65em 0;
+}
+small {
+  color: var(--doc-muted);
+}
+hr {
+  border: 0;
+  border-top: 1px solid var(--doc-border);
+  margin: 1.4em 0;
+}
 
 a {
   color: var(--doc-link);
@@ -66,14 +103,28 @@ a {
   text-decoration-color: color-mix(in oklab, var(--doc-link) 50%, transparent);
   text-underline-offset: 0.18em;
 }
-a:visited { color: var(--doc-link-visited); }
-a:hover { text-decoration-color: var(--doc-link); }
+a:visited {
+  color: var(--doc-link-visited);
+}
+a:hover {
+  text-decoration-color: var(--doc-link);
+}
 
 /* Lists */
-ul, ol { margin: 0.6em 0; padding-left: 1.35em; }
-li { margin: 0.25em 0; }
-ul { list-style: disc; }
-ol { list-style: decimal; }
+ul,
+ol {
+  margin: 0.6em 0;
+  padding-left: 1.35em;
+}
+li {
+  margin: 0.25em 0;
+}
+ul {
+  list-style: disc;
+}
+ol {
+  list-style: decimal;
+}
 
 /* Blockquotes */
 blockquote {
@@ -83,11 +134,14 @@ blockquote {
   background: color-mix(in oklab, var(--doc-surface) 55%, transparent);
   border-radius: 10px;
 }
-blockquote p { margin: 0.35em 0; }
+blockquote p {
+  margin: 0.35em 0;
+}
 
 /* Inline code */
 code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
   font-size: 0.92em;
   background: var(--doc-code-bg);
   border: 1px solid var(--doc-code-border);
@@ -127,17 +181,24 @@ thead th {
   background: color-mix(in oklab, var(--doc-surface) 70%, transparent);
   border-bottom: 1px solid var(--doc-border);
 }
-th, td {
+th,
+td {
   padding: 0.7em 0.8em;
   border-bottom: 1px solid color-mix(in oklab, var(--doc-border) 70%, transparent);
 }
 tbody tr:nth-child(even) td {
   background: color-mix(in oklab, var(--doc-surface) 35%, transparent);
 }
-tbody tr:last-child td { border-bottom: 0; }
+tbody tr:last-child td {
+  border-bottom: 0;
+}
 
 /* Selection and focus */
-::selection { background: color-mix(in oklab, var(--doc-accent) 30%, transparent); }
-:focus-visible { outline: 2px solid var(--doc-focus); outline-offset: 2px; border-radius: 8px; }
-
-
+::selection {
+  background: color-mix(in oklab, var(--doc-accent) 30%, transparent);
+}
+:focus-visible {
+  outline: 2px solid var(--doc-focus);
+  outline-offset: 2px;
+  border-radius: 8px;
+}

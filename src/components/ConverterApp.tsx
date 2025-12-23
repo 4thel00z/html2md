@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FileCode, Zap } from "lucide-react";
+import type React from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Converter } from "./Converter.tsx";
 
 const UI_THEME = "light";
@@ -19,8 +20,18 @@ export const ConverterApp: React.FC = () => {
             <span className="text-xl font-black tracking-tight">md2html</span>
           </div>
           <div className="flex items-center gap-4">
-            <a href="https://github.com" className="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">Documentation</a>
-            <button className="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity">GitHub</button>
+            <a
+              href="https://github.com"
+              className="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity"
+            >
+              Documentation
+            </a>
+            <button
+              type="button"
+              className="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity"
+            >
+              GitHub
+            </button>
           </div>
         </div>
       </nav>
@@ -32,12 +43,12 @@ export const ConverterApp: React.FC = () => {
             <span>Tailwind v4 Powered</span>
           </div>
           <h1 className="text-5xl font-black tracking-tight mb-4">
-            Markdown to professional <br /> 
+            Markdown to professional <br />
             <span className="opacity-70">HTML in seconds.</span>
           </h1>
           <p className="text-xl opacity-80 leading-relaxed">
-            Create beautiful, self-contained HTML documents from Markdown. 
-            Tailwind v4 + typography for great readability.
+            Create beautiful, self-contained HTML documents from Markdown. Tailwind v4 + typography
+            for great readability.
           </p>
         </header>
 
@@ -52,4 +63,3 @@ export const ConverterApp: React.FC = () => {
     </div>
   );
 };
-

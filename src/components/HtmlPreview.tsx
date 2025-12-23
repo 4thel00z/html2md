@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
 import { Download, Eye, Maximize2, Minimize2 } from "lucide-react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface HtmlPreviewProps {
   html: string;
@@ -9,7 +10,13 @@ interface HtmlPreviewProps {
   canDownload?: boolean;
 }
 
-export const HtmlPreview: React.FC<HtmlPreviewProps> = ({ html, isLoading, refreshToken, onDownload, canDownload }) => {
+export const HtmlPreview: React.FC<HtmlPreviewProps> = ({
+  html,
+  isLoading,
+  refreshToken,
+  onDownload,
+  canDownload,
+}) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [iframeHeight, setIframeHeight] = useState<number>(0);
@@ -25,6 +32,7 @@ export const HtmlPreview: React.FC<HtmlPreviewProps> = ({ html, isLoading, refre
   }, []);
 
   useEffect(() => {
+    void refreshToken;
     if (iframeRef.current && html) {
       const doc = iframeRef.current.contentWindow?.document;
       if (doc) {
@@ -72,6 +80,7 @@ export const HtmlPreview: React.FC<HtmlPreviewProps> = ({ html, isLoading, refre
         <div className="flex items-center gap-3">
           {onDownload && (
             <button
+              type="button"
               onClick={onDownload}
               disabled={!canDownload}
               className="btn btn-ghost btn-sm btn-square"
@@ -114,4 +123,3 @@ export const HtmlPreview: React.FC<HtmlPreviewProps> = ({ html, isLoading, refre
     </div>
   );
 };
-

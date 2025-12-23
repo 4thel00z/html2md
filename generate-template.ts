@@ -36,5 +36,3 @@ try {
   console.error("Failed to generate template:", e);
   process.exit(1);
 }
-
-

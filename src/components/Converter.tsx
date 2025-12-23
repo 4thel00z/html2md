@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { MarkdownEditor } from "./MarkdownEditor.tsx";
-import { HtmlPreview } from "./HtmlPreview.tsx";
+import type React from "react";
+import { useEffect, useMemo, useState } from "react";
 import { render } from "../render.ts";
+import { HtmlPreview } from "./HtmlPreview.tsx";
+import { MarkdownEditor } from "./MarkdownEditor.tsx";
 
 const DEFAULT_THEMES = [
   "light",
@@ -97,8 +98,9 @@ export const Converter: React.FC<ConverterProps> = ({
         const fullHtml = await render(debouncedMarkdown, { theme: outputTheme, templateUrl });
         setHtml(fullHtml);
         onHtmlChange?.(fullHtml);
-      } catch (e: any) {
-        setTemplateError(e?.message ?? String(e));
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : String(e);
+        setTemplateError(message);
         console.error("Conversion failed:", e);
       } finally {
         setIsLoading(false);
@@ -154,7 +156,9 @@ export const Converter: React.FC<ConverterProps> = ({
           }
         />
         <div className="text-xs opacity-70 px-1">
-          {templateError ? `Template error: ${templateError}` : "Preview updates automatically while you type."}
+          {templateError
+            ? `Template error: ${templateError}`
+            : "Preview updates automatically while you type."}
         </div>
       </div>
 
@@ -170,5 +174,3 @@ export const Converter: React.FC<ConverterProps> = ({
     </div>
   );
 };
-
-

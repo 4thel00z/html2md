@@ -40,5 +40,3 @@ export async function render(markdown: string, options: RenderOptions = {}): Pro
   const contentHtml = await MarkdownAdapter.convert(markdown);
   return HtmlTemplateAdapter.render(templateHtml, contentHtml, theme);
 }
-
-

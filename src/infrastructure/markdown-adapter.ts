@@ -42,11 +42,10 @@ export const MarkdownAdapter: MarkdownConverterPort = {
       })
       .join("\n");
 
-    return marked(expanded, { 
+    return marked(expanded, {
       renderer,
       breaks: true,
-      gfm: true
+      gfm: true,
     });
-  }
+  },
 } as const;
-

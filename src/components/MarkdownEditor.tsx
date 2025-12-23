@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import { Extension } from "@tiptap/core";
+import Placeholder from "@tiptap/extension-placeholder";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Placeholder from "@tiptap/extension-placeholder";
-import { Extension } from "@tiptap/core";
 import { FileText } from "lucide-react";
+import type React from "react";
+import { useEffect, useRef } from "react";
 
 interface MarkdownEditorProps {
   initialMarkdown: string;
@@ -30,7 +31,11 @@ const EnterAsHardBreak = Extension.create({
   },
 });
 
-export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ initialMarkdown, onChange, headerActions }) => {
+export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
+  initialMarkdown,
+  onChange,
+  headerActions,
+}) => {
   const hasInitialized = useRef(false);
   const editor = useEditor({
     extensions: [
@@ -89,9 +94,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ initialMarkdown,
           <FileText size={18} />
           <span>Editor</span>
         </div>
-        <div className="flex items-center gap-3">
-          {headerActions}
-        </div>
+        <div className="flex items-center gap-3">{headerActions}</div>
       </div>
       <div className="flex-grow overflow-y-auto bg-base-100 min-h-[500px]">
         <EditorContent editor={editor} className="h-full" />
@@ -99,4 +102,3 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ initialMarkdown,
     </div>
   );
 };
-

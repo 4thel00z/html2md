@@ -5,4 +5,3 @@ export interface MarkdownConverterPort {
 export interface HtmlTemplatePort {
   render(templateHtml: string, contentHtml: string, theme: string): string;
 }
-
