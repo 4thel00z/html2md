@@ -26,7 +26,7 @@ export function App() {
 
 ### Required: serve the generated template once
 
-`ConverterApp` fetches `/template.generated.html` once and then only replaces placeholders for:
+`Converter` fetches `/template.generated.html` once and then only replaces placeholders for:
 - `__THEME__` (selected output theme)
 - `__CONTENT__` (rendered HTML)
 
@@ -43,14 +43,9 @@ bun run generate:template
 ## Library usage
 
 ```ts
-import { MarkdownAdapter, HtmlTemplateAdapter } from "html2md";
+import { render } from "html2md";
 
-// markdown -> HTML fragment
-const contentHtml = await MarkdownAdapter.convert("# Hello");
-
-// then inject into the template you serve (string replacement)
-const templateHtml = await fetch("/template.generated.html").then((r) => r.text());
-const fullHtml = HtmlTemplateAdapter.render(templateHtml, contentHtml, "night");
+const fullHtml = await render("# Hello", { theme: "night" });
 ```
 
 ## Demo app (local)

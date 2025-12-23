@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { MarkdownEditor } from "./MarkdownEditor.tsx";
 import { HtmlPreview } from "./HtmlPreview.tsx";
-import { MarkdownAdapter } from "../infrastructure/markdown-adapter.ts";
-import { HtmlTemplateAdapter } from "../infrastructure/template-adapter.ts";
+import { render } from "../render.ts";
 
 const DEFAULT_THEMES = [
   "light",
@@ -85,41 +84,21 @@ export const Converter: React.FC<ConverterProps> = ({
     }
   });
   const [previewRefreshToken, setPreviewRefreshToken] = useState(0);
-  const [templateHtml, setTemplateHtml] = useState<string>("");
   const [templateError, setTemplateError] = useState<string>("");
 
   const debouncedMarkdown = useMemo(() => markdown, [markdown]);
 
-  // Load the generated template ONCE (contains the inlined CSS already).
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        setTemplateError("");
-        const res = await fetch(templateUrl, { cache: "no-cache" });
-        if (!res.ok) throw new Error(`Failed to load template: ${res.status} ${res.statusText}`);
-        const txt = await res.text();
-        if (!cancelled) setTemplateHtml(txt);
-      } catch (e: any) {
-        if (!cancelled) setTemplateError(e?.message ?? String(e));
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [templateUrl]);
-
   // Realtime conversion: debounce while typing.
   useEffect(() => {
     const handle = setTimeout(async () => {
-      if (!templateHtml) return;
       setIsLoading(true);
       try {
-        const contentHtml = await MarkdownAdapter.convert(debouncedMarkdown);
-        const fullHtml = HtmlTemplateAdapter.render(templateHtml, contentHtml, outputTheme);
+        setTemplateError("");
+        const fullHtml = await render(debouncedMarkdown, { theme: outputTheme, templateUrl });
         setHtml(fullHtml);
         onHtmlChange?.(fullHtml);
       } catch (e: any) {
+        setTemplateError(e?.message ?? String(e));
         console.error("Conversion failed:", e);
       } finally {
         setIsLoading(false);
@@ -127,7 +106,7 @@ export const Converter: React.FC<ConverterProps> = ({
     }, 150);
 
     return () => clearTimeout(handle);
-  }, [debouncedMarkdown, outputTheme, templateHtml, onHtmlChange]);
+  }, [debouncedMarkdown, outputTheme, templateUrl, onHtmlChange]);
 
   const handleDownload = () => {
     if (!html) return;
