@@ -1,17 +1,20 @@
 name: CI
 
 on:
+  pull_request:
   push:
     branches: [master]
-  pull_request:
-
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  # If you manually create a GitHub Release in the UI, publish on that event too.
+  release:
+    types: [published]
+  workflow_dispatch:
 
 jobs:
   ci:
+    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -21,4 +24,85 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Check + build
         run: bun run ci
+
+  release-please:
+    # Runs on pushes to master and can be triggered manually.
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          config-file: .release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      # Publish here when release-please creates a release (workflow-chaining protection can prevent
+      # a separate `on: release` workflow from running when the release is created by GITHUB_TOKEN).
+      - uses: actions/checkout@v4
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+
+      - uses: oven-sh/setup-bun@v2
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+        with:
+          bun-version: latest
+
+      - name: Install
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+        run: bun install --frozen-lockfile
+
+      - name: Check + build
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+        run: bun run ci
+
+      - name: Configure npm auth
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > "${GITHUB_WORKSPACE}/.npmrc"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to npm
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+        run: bun publish --access public
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          BUN_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_USERCONFIG: ${{ github.workspace }}/.npmrc
+
+  publish:
+    # If you create a GitHub Release manually (not via github-actions), publish from the tag.
+    if: ${{ github.event_name == 'release' && github.event.release.author.login != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      - name: Check + build
+        run: bun run ci
+
+      - name: Configure npm auth
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > "${GITHUB_WORKSPACE}/.npmrc"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to npm
+        run: bun publish --access public
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          BUN_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_USERCONFIG: ${{ github.workspace }}/.npmrc
 
