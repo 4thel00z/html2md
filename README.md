@@ -16,6 +16,8 @@
   </a>
 </p>
 
+![Demo](demo.gif)
+
 ## Requirements
 
 - Bun (recommended for dev + demo)
@@ -89,10 +91,6 @@ export function App() {
 }
 ```
 
-## Demo video
-
-![Demo](demo.gif)
-
 ## Template
 
 - By default, `Converter` (and `render()`) uses an **embedded HTML template with inlined CSS** — **no routes/static files** are required.
@@ -118,6 +116,14 @@ const fullHtml = await render("# Hello", { theme: "night" });
 
 ```bash
 bun run start
+```
+
+## Build a bundled `index.html` (static)
+
+```bash
+bun install
+bun run generate:template
+bun build ./src/index.html --outdir ./out --minify --target browser --public-path /
 ```
 
 ## Contributing / Dev
