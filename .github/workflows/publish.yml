@@ -37,12 +37,21 @@ jobs:
         run: bun run ci
 
       - name: Configure npm auth
-        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > "$HOME/.npmrc"
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > "${GITHUB_WORKSPACE}/.npmrc"
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Verify npm auth config (no secrets)
+        run: |
+          test -f "${GITHUB_WORKSPACE}/.npmrc"
+          grep -q "_authToken=" "${GITHUB_WORKSPACE}/.npmrc"
+          echo "npmrc_ok=1 size_bytes=$(wc -c < "${GITHUB_WORKSPACE}/.npmrc")"
 
       - name: Publish
         run: bun publish --access public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          BUN_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_USERCONFIG: ${{ github.workspace }}/.npmrc
 
