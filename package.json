@@ -1,12 +1,16 @@
 {
-  "name": "html2md",
+  "name": "@4thel00z/html2md",
   "version": "0.1.0",
   "description": "Markdown → self-contained HTML (Tailwind v4 + Typography + DaisyUI themes).",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/REPLACE_ME/REPLACE_ME.git"
+    "url": "git+https://github.com/4thel00z/html2md.git"
   },
+  "bugs": {
+    "url": "https://github.com/4thel00z/html2md/issues"
+  },
+  "homepage": "https://github.com/4thel00z/html2md#readme",
   "keywords": ["markdown", "html", "converter", "tailwindcss", "daisyui", "bun"],
   "type": "module",
   "sideEffects": false,
@@ -28,7 +32,15 @@
     "start": "bun run generate:template && bun --hot src/server.ts",
     "build": "bun run build:js && bun run build:types",
     "build:js": "bun build ./src/index.ts --outdir ./dist --format esm --target node",
-    "build:types": "tsc -p tsconfig.build.json"
+    "build:types": "tsc -p tsconfig.build.json",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "check": "biome check .",
+    "check:write": "biome check --write .",
+    "ci": "bun run check && bun run build",
+    "release": "semantic-release",
+    "hooks:install": "lefthook install",
+    "hooks:run": "lefthook run pre-commit"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.18",
@@ -42,6 +54,17 @@
     "@types/marked": "^6.0.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "@biomejs/biome": "^1.9.4",
+    "lefthook": "^1.12.4",
+    "semantic-release": "^24.2.8",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.6",
+    "@semantic-release/npm": "^12.0.1",
+    "@semantic-release/release-notes-generator": "^14.1.0",
+    "conventional-changelog-conventionalcommits": "^9.1.0",
     "typescript": "^5",
     "@tiptap/core": "^3.14.0",
     "@tiptap/extension-character-count": "^3.14.0",
