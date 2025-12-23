@@ -1,0 +1,10 @@
+node_modules/
+dist/
+
+# generated output template (rebuild via `bun run generate:template`)
+src/infrastructure/template.generated.html
+
+# OS/editor noise
+.DS_Store
+*.log
+

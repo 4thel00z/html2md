@@ -1,0 +1,55 @@
+{
+  "name": "html2md",
+  "version": "0.1.0",
+  "description": "Markdown → self-contained HTML (Tailwind v4 + Typography + DaisyUI themes).",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/REPLACE_ME/REPLACE_ME.git"
+  },
+  "keywords": ["markdown", "html", "converter", "tailwindcss", "daisyui", "bun"],
+  "type": "module",
+  "sideEffects": false,
+  "files": ["dist", "README.md", "LICENSE"],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "generate:template": "bun ./generate-template.ts",
+    "start": "bun run generate:template && bun --hot src/server.ts",
+    "build": "bun run build:js && bun run build:types",
+    "build:js": "bun build ./src/index.ts --outdir ./dist --format esm --target node",
+    "build:types": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "@tailwindcss/typography": "^0.5.19",
+    "marked": "^17.0.1",
+    "daisyui": "^5.0.0",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/marked": "^6.0.0",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5",
+    "@tiptap/core": "^3.14.0",
+    "@tiptap/extension-character-count": "^3.14.0",
+    "@tiptap/extension-placeholder": "^3.14.0",
+    "@tiptap/react": "^3.14.0",
+    "@tiptap/starter-kit": "^3.14.0",
+    "lucide-react": "^0.562.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  }
+}

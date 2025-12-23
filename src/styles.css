@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: all;
+}
+@plugin "@tailwindcss/typography";
+
+/* Make Typography follow DaisyUI theme variables (so themes actually tint content). */
+.prose {
+  --tw-prose-body: var(--color-base-content);
+  --tw-prose-headings: var(--color-base-content);
+  --tw-prose-lead: var(--color-base-content);
+  --tw-prose-links: var(--color-primary);
+  --tw-prose-bold: var(--color-base-content);
+  --tw-prose-counters: color-mix(in oklab, var(--color-base-content) 70%, transparent);
+  --tw-prose-bullets: color-mix(in oklab, var(--color-base-content) 45%, transparent);
+  --tw-prose-hr: var(--color-base-300);
+  --tw-prose-quotes: var(--color-base-content);
+  --tw-prose-quote-borders: var(--color-base-300);
+  --tw-prose-captions: color-mix(in oklab, var(--color-base-content) 70%, transparent);
+  --tw-prose-code: var(--color-base-content);
+  --tw-prose-pre-code: var(--color-base-content);
+  --tw-prose-pre-bg: var(--color-base-300);
+  --tw-prose-th-borders: var(--color-base-300);
+  --tw-prose-td-borders: var(--color-base-300);
+}
+
