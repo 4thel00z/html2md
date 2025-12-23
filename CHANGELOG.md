@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/4thel00z/html2md/compare/html2md-v0.2.1...html2md-v0.3.0) (2025-12-23)
+
+
+### Features
+
+* embed template into bundle ([0e0689d](https://github.com/4thel00z/html2md/commit/0e0689d6c00b40b3b7a2c48e80b49925c2253523))
+
 ## [0.2.1](https://github.com/4thel00z/html2md/compare/html2md-v0.2.0...html2md-v0.2.1) (2025-12-23)
 
 

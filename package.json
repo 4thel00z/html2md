@@ -1,6 +1,6 @@
 {
   "name": "@4thel00z/html2md",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Markdown → self-contained HTML (Tailwind v4 + Typography + DaisyUI themes).",
   "license": "MIT",
   "repository": {
